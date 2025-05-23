@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us | Adspotters</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body { font-family: Arial, sans-serif; background: #fff; }
+    .navbar { background: #f8f9fa; }
+    .hero {
+      background: url('https://img.freepik.com/free-vector/contact-us-concept-illustration_114360-7579.jpg?w=740') no-repeat center/cover;
+      color: white; text-align: center; padding: 80px 20px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 0;
+    }
+    .hero > div { position: relative; z-index: 1; }
+    .content-section { padding: 40px 20px; max-width: 1100px; margin: auto; }
+    .two-col {
+      display: flex; flex-wrap: wrap; gap: 40px; align-items: center;
+    }
+    .two-col > div { flex: 1 1 45%; }
+    form {
+      display: flex; flex-direction: column; gap: 15px;
+    }
+    input, textarea {
+      padding: 10px; border: 1px solid #ccc; border-radius: 5px;
+      font-size: 1rem; width: 100%;
+      resize: vertical;
+    }
+    button {
+      background: #007bff; color: white; border: none; padding: 12px;
+      font-size: 1.1rem; border-radius: 5px; cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .contact-info {
+      font-size: 1.1rem;
+    }
+    footer {
+      background: #222; color: white; text-align: center; padding: 20px 0; margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">Adspotters</a>
+    <ul class="navbar-nav ms-auto d-flex flex-row gap-3">
+      <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+      <li class="nav-item"><a class="nav-link" href="/#services">Services</a></li>
+      <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+      <li class="nav-item"><a class="nav-link active" href="#">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1 class="display-4 fw-bold">Get in Touch</h1>
+    <p class="lead">We'd love to hear from you. Reach out for inquiries, partnerships, or support.</p>
+  </div>
+</section>
+
+<section class="content-section">
+  <div class="two-col">
+    <div>
+      <h2>Contact Form</h2>
+      <form id="contactForm">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <input type="tel" id="phone" placeholder="Phone Number" />
+        <textarea rows="5" id="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+      <p id="ack" style="color: green; font-weight: bold; display: none;">Thank you! Your message has been sent.</p>
+      <p id="err" style="color: red; font-weight: bold; display: none;">Failed to send message. Try again.</p>
+    </div>
+    <div>
+      <h2>Contact Info</h2>
+      <p class="contact-info"><strong>Email:</strong> <a href="mailto:contact@adspotters.in">contact@adspotters.in</a></p>
+      <p class="contact-info"><strong>Phone:</strong> +91 98765 43210</p>
+      <p class="contact-info"><strong>Address:</strong> 123, Marketing St, New Delhi, India</p>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.83912927847!2d77.0688997!3d28.5270852!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1e66cba62efb%3A0xcdb9c68cfdd85f15!2sNew%20Delhi%2C%20Delhi%2C%20India!5e0!3m2!1sen!2sus!4v1687333796111!5m2!1sen!2sus"
+        width="100%" height="250" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const ack = document.getElementById('ack');
+    const err = document.getElementById('err');
+    ack.style.display = 'none';
+    err.style.display = 'none';
+
+    const payload = {
+      name: document.getElementById('name').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      message: document.getElementById('message').value.trim()
+    };
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        document.getElementById('contactForm').reset();
+        ack.style.display = 'block';
+      } else {
+        err.style.display = 'block';
+      }
+    } catch (e) {
+      err.style.display = 'block';
+    }
+  });
+</script>
+
+
+<footer>
+  <p>&copy; 2025 Adspotters. All rights reserved. | <a href="mailto:contact@adspotters.in" style="color:#ccc;">contact@adspotters.in</a></p>
+</footer>
+
+</body>
+</html>
